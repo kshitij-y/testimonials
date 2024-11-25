@@ -5,7 +5,7 @@ export function Signup() {
     return (
         <div className="bg-gray-900 flex flex-col">
             <TopBar />
-            <div className="flex flex-col items-center justify-center h-screen max-w-6xl mx-auto ">
+            <div className="flex flex-col items-center justify-center h-screen max-w-6xl mx-auto mt-[100px]">
                 <h1 className="text-white text-4xl font-semibold">Sign up for free 🤗</h1>
                 <h2 className="text-gray-600 text-2xl font-semibold m-3">You will get 2 video and 10 text testimonial credits for FREE!</h2>
                 <div className="flex flex-col bg-gray-700 rounded-md items-center justify-center w-[500px] px-8 py-6 my-12">
