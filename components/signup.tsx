@@ -20,7 +20,7 @@ export function Signup() {
                     </div>
                     <div className="mb-4">
                         <label htmlFor="firstName" className="block text-sm font-medium text-gray-400 mb-1">First name *</label>
-                        <input type="text" id="firstName" placeholder="Your first name" required className="w-[438px] px-4 py-2 rounded-md bg-white text-white border border-gray-600 focus:ring-2 focus:ring-purple-600 focus:outline-none" />
+                        <input type="text" id="firstName" placeholder="Your first name" required className="w-[438px] px-4 py-2 rounded-md bg-white border border-gray-600 focus:ring-2 focus:ring-purple-600 focus:outline-none" />
                     </div>
 
                     <div className="mb-4">

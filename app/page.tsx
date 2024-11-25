@@ -1,8 +1,10 @@
+import Landing from "@/components/landing";
+import TopBar from "@/components/topBar";
 
 export default function Home() {
   return (
-    <div>
-      this is a Home page
+    <div className="bg-gray-900">
+      <Landing />
     </div>
   );
 }
