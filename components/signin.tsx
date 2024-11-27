@@ -1,6 +1,54 @@
+"use client"
 import TopBar from "./topBar";
+import { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import { z } from "zod";
+
+const SigninSchema = z.object({
+    email: z.string().email({ message: "Invalid email address" }),
+    password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
+});
 
 export function Signin() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
+    
+    const emailRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (emailRef.current) {
+            setEmail(emailRef.current.value); 
+        }
+        if (passwordRef.current) {
+            setPassword(passwordRef.current.value);
+        }
+    }, []);
+
+
+    
+
+    async function handleSignin() {
+        try {
+            setMessage("");
+            SigninSchema.parse({ email, password });
+            const res = await axios.post("http://localhost:3000/api/user/signin", {
+                email,
+                password,
+            });
+            setMessage(res.data.message);
+            if (res.data.token) {
+                window.location.href = "/dashboard";
+            }
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                setMessage(error.errors[0].message);
+            } else {
+                console.error(error);
+            }
+        }
+    }
     return (
         <div className="bg-gray-900 flex flex-col">
             <TopBar />
@@ -17,13 +65,19 @@ export function Signin() {
                     {/* Email */}
                     <div className="mb-4">
                         <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-1">Email *</label>
-                        <input type="email" id="email" placeholder="you@example.com" required className="w-[438px] px-4 py-2 rounded-md bg-white text-white border border-gray-600 focus:ring-2 focus:ring-purple-600 focus:outline-none" />
+                        <input type="email" placeholder="you@example.com" required
+                            ref={emailRef}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-[438px] px-4 py-2 rounded-md bg-white  border border-gray-600 focus:ring-2 focus:ring-purple-600 focus:outline-none" />
                     </div>
 
                     {/* Password */}
                     <div className="mb-4">
                         <label htmlFor="password" className="block text-sm font-medium text-gray-400 mb-1">Password *</label>
-                        <input type="password" id="password" placeholder="Password" required className="w-[438px] px-4 py-2 rounded-md bg-white text-white border border-gray-600 focus:ring-2 focus:ring-purple-600 focus:outline-none" />
+                        <input type="password" id="password" placeholder="Password" required
+                            onChange={(e) => setPassword(e.target.value)}
+                            ref={passwordRef}
+                            className="w-[438px] px-4 py-2 rounded-md bg-white  border border-gray-600 focus:ring-2 focus:ring-purple-600 focus:outline-none" />
                     </div>
                     {/* Forgot Password */}
                     <div className="text-left text-purple-400 mb-4 w-[438px]">
@@ -36,11 +90,19 @@ export function Signin() {
                     <div className="mb-6">
                         <button
                             type="submit"
+                            onClick={handleSignin}
                             className="w-[438px] px-4 py-2 bg-purple-600 text-white rounded-md shadow hover:shadow-lg hover:bg-purple-700 focus:ring-2 focus:ring-purple-400 focus:outline-none"
                         >
                             Sign in
                         </button>
                     </div>
+
+                    <div className="text-center">
+                        <p className="text-sm text-gray-400">
+                            {message && <span className="text-red-500">{message}</span>}
+                        </p>
+                    </div>
+                    
 
                     <div className="text-center">
                         <p className="text-sm text-gray-400">

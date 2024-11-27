@@ -1,5 +1,6 @@
 
 import Embeded from "./embed";
+import Features from "./features";
 import TopBar from "./topBar";
 export default function Landing() {
   return (
@@ -9,7 +10,7 @@ export default function Landing() {
       </div>
 
       {/* landing page content */}
-      <div className="flex flex-col bg-gray-900 h-full max-w-[80%] mx-auto px-4">
+      <div className="flex flex-col bg-gray-900 h-full max-w-[80%] mx-auto px-4 md:w-[95%] sm:w-full">
         <div className="flex text-white w-full justify-center mt-24 px-16 md:px-4">
           <div className="max-w-4xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h1 mb-4 text-5xl font-bold px-6 py-4">Get testimonials from your customers with ease</h1>
@@ -45,14 +46,19 @@ export default function Landing() {
           </div>
         </div>
 
-        <div className="mb-48">
+        <div className="mb-12">
             <div className="flex w-full justify-center">
                 <img loading="lazy" className="h-10 fill-current text-purple-600 bg-gray-900" src="/logo.5ff3c18e.svg" alt="Logo"></img>
             </div>
           <Embeded />
         </div>
         
+        {/* border */}
+        <div className="border border-gray-800 w-full mb-12"></div>
 
+        <div className="mb-48">
+          <Features />
+        </div>
         
       </div>
     </div>

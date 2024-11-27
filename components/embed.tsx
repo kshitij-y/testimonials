@@ -9,7 +9,7 @@ export default function Embeded() {
     const [btntxt, setbtntxt] = useState("Copy Code");
   return (
     <div className="flex text-white w-full justify-center mt-12 px-16 md:px-4">
-      <div className="bg-gray-800 max-w-4xl mx-auto py-2 rounded-md ">
+      <div className="bg-gray-800 w-full max-w-4xl mx-auto py-2 rounded-md ">
         <h1 className="h1 mb-4 text-3xl font-bold px-6">Try our sample embed code</h1>
         <p className="text-xl text-gray-600 px-6">
           Embed the wall of love to your website in 1 minute
