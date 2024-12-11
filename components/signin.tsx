@@ -51,6 +51,7 @@ export function Signin() {
             }
         }
     }
+    
     async function hangleGoogleAuth() {
         try {
             setMessage("");
@@ -137,6 +138,7 @@ export function Signin() {
                             </a>
                         </p>
                     </div>
+                    
                 </div>
             </div>
         </div>

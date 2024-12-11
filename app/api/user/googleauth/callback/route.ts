@@ -11,7 +11,7 @@ const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
 
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
-export async function GET(req: NextRequest) {
+export async function GET(req: NextRequest, res: NextResponse) {
     try {
         const { searchParams } = new URL(req.url);
         const code = searchParams.get("code");
@@ -58,7 +58,8 @@ export async function GET(req: NextRequest) {
         });
 
         const response = NextResponse.redirect(new URL("/dashboard", req.url));
-        response.cookies.set("auth_token", token, { httpOnly: true, maxAge: 3600 });
+        response.cookies.set("auth_token", token, { httpOnly: true });
+        response.cookies.set("avatarUrl", picture || "", { httpOnly: true });
         return response;
     } catch (error) {
         console.error("Error in Google callback:", error);

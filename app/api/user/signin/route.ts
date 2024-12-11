@@ -36,7 +36,8 @@ export async function POST(req: NextRequest) {
                 token,
                 message: 'User signed in successfully'
             }, { status: 200 });
-            response.cookies.set('token', token, { httpOnly: true, secure: true, maxAge: 3600 });
+            response.cookies.set('token', token, { httpOnly: true });
+            response.cookies.set('avatarUrl', user.avatarUrl || "", { httpOnly: true });
             response.headers.set('Authorization', `Bearer ${token}`);
             return response;
         } catch (error) {
