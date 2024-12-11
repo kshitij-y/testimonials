@@ -13,7 +13,8 @@ export async function POST(req: NextRequest) {
 
     if (!email || !password) {
         return NextResponse.json({
-            message: 'Email and password are required'
+            message: 'Email and password are required',
+
         }, {
             status: 400
         });
@@ -28,7 +29,8 @@ export async function POST(req: NextRequest) {
 
         if (existingUser) {
             return NextResponse.json({
-                message: 'Email is already in use'
+                message: 'Email is already in use',
+                success: false
             });
         }
 
@@ -50,7 +52,8 @@ export async function POST(req: NextRequest) {
 
         const response = NextResponse.json({
             token,
-            message: 'User created successfully'
+            message: 'User created successfully',
+            success: true
         }, {
             status: 201
         });
@@ -59,6 +62,9 @@ export async function POST(req: NextRequest) {
 
         return response;
     } catch (error) {
-        return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+        return NextResponse.json({
+            message: 'Internal server error',
+            success: false
+        }, { status: 500 });
     }
 }

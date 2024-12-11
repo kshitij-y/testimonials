@@ -13,6 +13,8 @@ export function Signin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
+    const [oauthUrl, setOauthUrl] = useState("");
+
     
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -49,13 +51,33 @@ export function Signin() {
             }
         }
     }
+    async function hangleGoogleAuth() {
+        try {
+            setMessage("");
+            const res = await axios.get("http://localhost:3000/api/user/googleauth");
+            setOauthUrl(res.data.url);
+            window.location.href = res.data.url;
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                setMessage(error.errors[0].message);
+            } else if (axios.isAxiosError(error)) {
+                setMessage(error.response?.data.message || "An error occurred");
+            } else {
+                setMessage("An unexpected error occurred");
+            }
+            console.error(error);
+        }
+    }
+
     return (
         <div className="bg-gray-900 flex flex-col">
             <TopBar />
             <div className="flex flex-col items-center justify-center h-screen max-w-6xl mx-auto ">
                 <h1 className="text-white text-4xl font-semibold">Welcome back 👋</h1>
                 <div className="flex flex-col bg-gray-700 rounded-md items-center justify-center w-[500px] px-8 py-6 mt-24">
-                    <div className="bg-white w-[438px] my-5 text-center text-xl  py-2 rounded-sm">
+                    <div className="bg-white w-[438px] my-5 text-center text-xl  py-2 rounded-md cursor-pointer"
+                        onClick={hangleGoogleAuth}
+                    >
                         Sign in with Google
                     </div>
                     <div className="text-gray-500">

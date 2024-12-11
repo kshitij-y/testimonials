@@ -13,6 +13,7 @@ const SignupSchema = z.object({
 
 export function Signup() {
     const [message, setMessage] = useState("");
+    const [oauthUrl, setOauthUrl] = useState("");
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -28,12 +29,18 @@ export function Signup() {
             const res = await axios.post("http://localhost:3000/api/user/signup", {
                 name: nameRef.current?.value || "",
                 email: emailRef.current?.value || "",
-                password: passwordRef.current?.value || "",
+                password: nameRef.current?.value || "",
             });
             setMessage(res.data.message);
-            window.location.href = "/dashboard";
+            if (res.data.success) {
+                window.location.href = "/dashboard";
+            }
         } catch (error) {
-            console.error(error);
+             if (error instanceof z.ZodError) {
+                setMessage(error.errors[0]?.message || "Validation failed.");
+            } else {
+                console.error(error);
+            }
         }
     }
 
@@ -41,7 +48,8 @@ export function Signup() {
         try {
             setMessage("");
             const res = await axios.get("http://localhost:3000/api/user/googleauth");
-            setMessage(res.data.message);
+            setOauthUrl(res.data.url);
+            window.location.href = res.data.url;
         } catch (error) {
             console.error(error);
         }
@@ -57,7 +65,7 @@ export function Signup() {
                     <div className="text-gray-500 w-[438px]">
                         I agree to the Testimonial Terms of Service and I'm aware my personal data is processed in accordance with our Privacy Policy. Please read it carefully.
                     </div>
-                    <div className="bg-white w-[438px] my-5 text-center text-xl  py-2 rounded-sm"
+                    <div className="bg-white w-[438px] my-5 text-center text-xl  py-2 rounded-md cursor-pointer"
                         onClick={hangleGoogleAuth}    
                     >
                         Sign up with Google
