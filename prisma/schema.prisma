@@ -13,15 +13,31 @@ model User {
   googleId     String?  @unique
   name         String?
   avatarUrl    String?  
-  testimonials Testimonial[]
+  Spaces       Space[]
+}
+
+model Space {
+  id          Int       @id @default(autoincrement())
+  userId      Int
+  name        String
+  description String
+  logoUrl     String
+  title       String
+  Questions   String[]
+  thankGif    String
+  thankTitle  String
+  thankMsg    String
+  testimonial Testimonial[]
+
+  user User @relation(fields: [userId], references: [id])
 }
 
 model Testimonial {
   id        Int      @id @default(autoincrement())
-  userId    Int      
+  spaceId   Int
+  name      String
+  email     String
   content   String
-  createdAt DateTime @default(now())
-
-  // Relations
-  user User @relation(fields: [userId], references: [id])
+  videoUrl  String?
+  space     Space   @relation(fields: [spaceId], references: [id])
 }
