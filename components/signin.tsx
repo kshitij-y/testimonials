@@ -9,7 +9,7 @@ const SigninSchema = z.object({
     password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
 });
 
-export function Signin() {
+export default function Signin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
