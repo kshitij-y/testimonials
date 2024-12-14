@@ -39,7 +39,7 @@ export default function Page() {
             { /*border line*/}
             <div className="w-full border-b border-gray-800"></div>
 
-            <div className=" bg-gray-800 text-white h-full mt-10 mx-auto px-8 md:w-[95%] rounded-lg">
+            <div className=" bg-gray-800 text-white h-full mx-auto px-8 md:w-[85%] rounded-lg ">
 
                 {/* Back to Dashboard*/}
                 <div className="mt-6 text-xl font-medium text-gray-500 p-2 text-right">

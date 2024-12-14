@@ -23,8 +23,8 @@ export default function Preview(prop :Props) {
             </div>
             <div className="mt-12">
                 <div>
-                    <h3 className="text-xl">QUESTIONS : </h3>
-                    <div className="border-b-4 border-purple-600 w-28"></div>
+                    <h3 className="text-base">QUESTIONS : </h3>
+                    <div className="border-b-4 border-purple-600 w-24"></div>
                     <ul className="list-disc list-inside mt-4">
                         {prop.questions.map((question, index) => (
                             <li key={index} className="text-lg text-gray-400 mt-2">
