@@ -11,7 +11,7 @@ const SignupSchema = z.object({
 });
 
 
-export function Signup() {
+export default function Signup() {
     const [message, setMessage] = useState("");
     const [oauthUrl, setOauthUrl] = useState("");
     const nameRef = useRef<HTMLInputElement>(null);
