@@ -27,6 +27,7 @@ model Space {
   thankGif    String
   thankTitle  String
   thankMsg    String
+  redirectUrl String?
   testimonial Testimonial[]
 
   user User @relation(fields: [userId], references: [id])

@@ -34,7 +34,7 @@ export async function GET(req: NextRequest, res: NextResponse) {
         if (!email) {
             return NextResponse.json({ message: "Email not available from Google." }, { status: 400 });
         }
-
+        
         let user = await prisma.user.findUnique({
             where: { email },
         });
@@ -54,11 +54,11 @@ export async function GET(req: NextRequest, res: NextResponse) {
         }
 
         const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-            expiresIn: "1h",
+            expiresIn: "7d",
         });
 
         const response = NextResponse.redirect(new URL("/dashboard", req.url));
-        response.cookies.set("auth_token", token, { httpOnly: true });
+        response.cookies.set("token", token, { httpOnly: true });
         response.cookies.set("avatarUrl", picture || "", { httpOnly: true });
         return response;
     } catch (error) {
