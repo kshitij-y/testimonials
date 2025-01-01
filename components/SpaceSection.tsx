@@ -13,8 +13,10 @@ export default function SpaceSection() {
         const response = await axios.get("http://localhost:3000/api/user/spaces");
         setSpace(response.data);
 
-      } catch (error: any) {
-        console.log("Error fetching spaces:", error.response?.data || error.message);
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.log("Error fetching spaces:", error.response?.data || error.message);
+        }
       }
     };
 

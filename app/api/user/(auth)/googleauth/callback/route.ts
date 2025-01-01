@@ -11,7 +11,7 @@ const REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI;
 
 const oauth2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI);
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET(req: NextRequest) {
     try {
         const { searchParams } = new URL(req.url);
         const code = searchParams.get("code");

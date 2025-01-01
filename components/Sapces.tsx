@@ -1,11 +1,9 @@
-import { number, string } from "zod";
 import SpacePlate from "./SpacePlate";
 import { z } from "zod";
 
-// Define the type for the space prop
 const spaceSchema = z.object({
     title: z.string(),
-});
+}); // eslint-disable-line @typescript-eslint/no-unused-vars
 
 type SpaceType = z.infer<typeof spaceSchema>;
 

@@ -13,7 +13,6 @@ export default function Signin() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [message, setMessage] = useState("");
-    const [oauthUrl, setOauthUrl] = useState("");
 
     
     const emailRef = useRef<HTMLInputElement>(null);
@@ -56,7 +55,6 @@ export default function Signin() {
         try {
             setMessage("");
             const res = await axios.get("http://localhost:3000/api/user/googleauth");
-            setOauthUrl(res.data.url);
             window.location.href = res.data.url;
         } catch (error) {
             if (error instanceof z.ZodError) {
@@ -129,7 +127,7 @@ export default function Signin() {
 
                     <div className="text-center">
                         <p className="text-sm text-gray-400">
-                        Don't have an account?{" "}
+                        Don&apos;t have an account?{" "}
                             <a
                                 href="/signup"
                                 className="text-purple-500 hover:underline"

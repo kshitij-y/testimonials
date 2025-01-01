@@ -1,6 +1,5 @@
 "use client"
 import axios from "axios";
-import { cookies } from "next/headers";
 import { useState } from "react";
 
 export default function Avatar({ imageUrl }: { imageUrl: string }) {

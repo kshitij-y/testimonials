@@ -1,6 +1,5 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcrypt';
-import e from 'express';
 import jwt from 'jsonwebtoken';
 import { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
@@ -63,9 +62,10 @@ export async function POST(req: NextRequest) {
 
         return response;
     } catch (error) {
+        console.log(error)
         return NextResponse.json({
             message: 'Internal server error',
-            success: false
+            success: false,
         }, { status: 500 });
     }
 }
