@@ -1,5 +1,4 @@
 import SpacePlate from "./SpacePlate";
-import { z } from "zod";
 
 type SpaceType = {
     title: string;
