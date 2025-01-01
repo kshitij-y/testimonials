@@ -6,7 +6,7 @@ export default async function Page() {
 
     const cookieStore = await cookies();
     const imageUrl = cookieStore.get("avatarUrl")?.value || "";
-    const email = cookieStore.get("email")?.value || "";
+    // const email = cookieStore.get("email")?.value || "";
     const decodedAvatarUrl = decodeURIComponent(imageUrl);
     
     

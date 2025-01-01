@@ -12,10 +12,10 @@ export default function TPreview(prop: Props) {
                     <img src={prop.thankGif || "https://media1.giphy.com/media/g9582DNuQppxC/giphy.gif?cid=ecf05e47ibtkj6mhht2m6gpzy157hwtxvlxlzqlijwrfqh8i&rid=giphy.gif"} alt="Thank you" className="h-54 w-96" />
                 </div>
                 <div className="text-4xl text-center items-center font-semibold my-12">
-                    <h3>{prop.thankTitle}</h3>
+                    <h3>{prop.thankTitle || "Thank you!"}</h3>
                 </div>
                 <div className="text-xl items-center text-center text-gray-400 px-12">
-                    {prop.thankMsg}
+                    {prop.thankMsg || "Thank you so much for your shoutout! It means a ton for us! 🙏"}
                 </div>
             </div>
 

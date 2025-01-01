@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
 
     if (!token) {
       return NextResponse.json(
-        { error: "Unauthorized: Missing token in cookies." },
+        { message: "Unauthorized: Missing token in cookies." },
         { status: 401 }
       );
     }
@@ -21,17 +21,17 @@ export async function POST(req: NextRequest) {
 
     if (!userId) {
       return NextResponse.json(
-        { error: "Unauthorized: Invalid token." },
+        { message: "Unauthorized: Invalid token." },
         { status: 401 }
       );
     }
 
     const body = await req.json();
-    const { name, description, logoUrl, title, Questions, thankGif, thankTitle, thankMsg } = body;
+    const { name, description, logoUrl, title, Questions, thankGif, thankTitle, thankMsg, redirectUrl } = body;
 
     if (!name || !description || !title) {
       return NextResponse.json(
-        { error: "Missing required fields: name, description, or title." },
+        { message: "Missing required fields: name, description, or title." },
         { status: 400 }
       );
     }
@@ -42,11 +42,11 @@ export async function POST(req: NextRequest) {
 
     if (!user) {
       return NextResponse.json(
-        { error: "User not found." },
+        { message: "User not found." },
         { status: 404 }
       );
     }
-
+    console.log(body);
     const space = await prisma.space.create({
       data: {
         userId,
@@ -58,14 +58,18 @@ export async function POST(req: NextRequest) {
         thankGif,
         thankTitle,
         thankMsg,
+        redirectUrl
       },
     });
 
-    return NextResponse.json(space, { status: 201 });
+    return NextResponse.json(
+      { message: "success" },
+      { status: 201 }
+    );
   } catch (error) {
     console.error("Error creating space:", error);
     return NextResponse.json(
-      { error: "Failed to create space. Please try again later." },
+      { message: "Failed to create space. Please try again later." },
       { status: 500 }
     );
   } finally {

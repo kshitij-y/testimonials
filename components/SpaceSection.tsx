@@ -12,7 +12,6 @@ export default function SpaceSection() {
       try {
         const response = await axios.get("http://localhost:3000/api/user/spaces");
         setSpace(response.data);
-        console.log(typeof response.data);
 
       } catch (error: any) {
         console.log("Error fetching spaces:", error.response?.data || error.message);

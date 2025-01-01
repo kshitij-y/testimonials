@@ -1,4 +1,4 @@
-import Input from "./Input";
+import Input from "./thankInput";
 
 interface props {
     thankGif: string;

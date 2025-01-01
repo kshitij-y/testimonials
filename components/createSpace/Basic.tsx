@@ -1,6 +1,10 @@
 import Input from "./Input";
 
 interface props {
+    name: string;
+    logoUrl: string;
+    title: string;
+    description: string;
     setName: React.Dispatch<React.SetStateAction<string>>;
     setLogourl: React.Dispatch<React.SetStateAction<string>>;
     setTitle: React.Dispatch<React.SetStateAction<string>>;
@@ -34,10 +38,10 @@ export default function Basic(prop: props) {
                 </div>
             </div>
 
-            <Input label="space Name" setValue={prop.setName} palceholder={""} />
-            <Input label="Logo Url" setValue={prop.setLogourl} palceholder={""} />
-            <Input label="Header title" setValue={prop.setTitle} palceholder={""} />
-            <Input label="Your custom message" setValue={prop.setDescription} palceholder={""} />
+            <Input label="space Name" setValue={prop.setName} palceholder={prop.name} />
+            <Input label="Logo Url" setValue={prop.setLogourl} palceholder={prop.logoUrl} />
+            <Input label="Header title" setValue={prop.setTitle} palceholder={prop.title} />
+            <Input label="Your custom message" setValue={prop.setDescription} palceholder={prop.description} />
             <div>
                 Questions:
                 <ul className="list-none mt-4">

@@ -3,6 +3,8 @@ import Basic from "@/components/createSpace/Basic";
 import Preview from "@/components/createSpace/preiview";
 import Thank from "@/components/createSpace/Thank";
 import TPreview from "@/components/createSpace/thanksPreview";
+import axios from "axios";
+
 import { useState } from "react";
 
 export default function Page() {
@@ -25,10 +27,31 @@ export default function Page() {
     const [thankGif, setThankGif] = useState("https://media1.giphy.com/media/g9582DNuQppxC/giphy.gif?cid=ecf05e47ibtkj6mhht2m6gpzy157hwtxvlxlzqlijwrfqh8i&rid=giphy.gif");
     const [thankTitle, setThankTitle] = useState("Thank you!");
     const [thankMsg, setThankMsg] = useState("Thank you so much for your shoutout! It means a ton for us! 🙏");
-    const [redUrl, setRedUrl] = useState("T");
+    const [redirectUrl, setRedUrl] = useState("");
 
     const createSpace = async () => {
-        
+
+        try {
+            const response = await axios.post('http://localhost:3000/api/user/createspace', {
+                name: name,
+                logoUrl: logourl,
+                title: title,
+                description: description,
+                Questions: questions,
+                thankGif: thankGif || "https://media1.giphy.com/media/g9582DNuQppxC/giphy.gif?cid=ecf05e47ibtkj6mhht2m6gpzy157hwtxvlxlzqlijwrfqh8i&rid=giphy.gif",
+                thankTitle: thankTitle || "Thank you!",
+                thankMsg: thankMsg || "Thank you so much for your shoutout! It means a ton for us! 🙏",
+                redirectUrl: redirectUrl
+            })
+            console.log(response);
+            if (response.status === 201) {
+                window.location.href = "/dashboard";
+            }
+            
+            
+        } catch (e) {
+            console.log(e);
+        }
     }
 
 
@@ -97,6 +120,10 @@ export default function Page() {
 
                         {flag && 
                             <Basic
+                                name={name}
+                                logoUrl={logourl}
+                                title={title}
+                                description={description}
                                 setName={setName}
                                 setLogourl={setLogourl}
                                 setTitle={setTitle}

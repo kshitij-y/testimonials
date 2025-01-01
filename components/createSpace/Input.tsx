@@ -11,7 +11,9 @@ export default function Input(prop: props){
             <div className="flex">
                 {prop.label} <h3 className="text-red-600">*</h3>
             </div>
-            <input className="bg-gray-800 border border-gray-600 rounded-lg p-1 my-2 text-lg" type="text" onChange={(e) => prop.setValue(e.target.value)} placeholder={prop.palceholder} required/>
+            <input className="bg-gray-800 border border-gray-600 rounded-lg p-1 my-2 text-lg" type="text"
+                onChange={(e) => prop.setValue(e.target.value)}
+                value={prop.palceholder} required />
         </div>
     );
 }

@@ -9,7 +9,7 @@ export default function NoSpace() {
                 Create your first space to start collecting testimonials
             </p>
 
-            <a href="/spaces" className=" text-white font-semibold rounded-md bg-purple-600 py-2 px-4 hover:bg-purple-800">
+            <a href="/createspaces" className=" text-white font-semibold rounded-md bg-purple-600 py-2 px-4 hover:bg-purple-800">
                 + Create New Spaces
             </a>
 
