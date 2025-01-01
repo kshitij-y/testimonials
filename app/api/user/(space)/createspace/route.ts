@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
       );
     }
     console.log(body);
-    const space = await prisma.space.create({
+    await prisma.space.create({
       data: {
         userId,
         name,

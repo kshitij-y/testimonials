@@ -13,7 +13,6 @@ const SignupSchema = z.object({
 
 export default function Signup() {
     const [message, setMessage] = useState("");
-    const [oauthUrl, setOauthUrl] = useState("");
     const nameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -48,7 +47,6 @@ export default function Signup() {
         try {
             setMessage("");
             const res = await axios.get("http://localhost:3000/api/user/googleauth");
-            setOauthUrl(res.data.url);
             window.location.href = res.data.url;
         } catch (error) {
             console.error(error);
@@ -63,7 +61,7 @@ export default function Signup() {
                 <h2 className="text-gray-600 text-2xl font-semibold m-3">You will get 2 video and 10 text testimonial credits for FREE!</h2>
                 <div className="flex flex-col bg-gray-700 rounded-md items-center justify-center w-[500px] px-8 py-6 my-12">
                     <div className="text-gray-500 w-[438px]">
-                        I agree to the Testimonial Terms of Service and I'm aware my personal data is processed in accordance with our Privacy Policy. Please read it carefully.
+                        I agree to the Testimonial Terms of Service and I&apos;m aware my personal data is processed in accordance with our Privacy Policy. Please read it carefully.
                     </div>
                     <div className="bg-white w-[438px] my-5 text-center text-xl  py-2 rounded-md cursor-pointer"
                         onClick={hangleGoogleAuth}    
