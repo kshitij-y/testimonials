@@ -32,7 +32,7 @@ export default function Page() {
     const createSpace = async () => {
 
         try {
-            const response = await axios.post('http://localhost:3000/api/user/createspace', {
+            const response = await axios.post('/api/user/createspace', {
                 name: name,
                 logoUrl: logourl,
                 title: title,

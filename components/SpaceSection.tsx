@@ -1,5 +1,7 @@
 "use client"
 import { useEffect, useState } from "react";
+import dotenv from "dotenv";
+dotenv.config();
 import NoSpace from "./NoSpace";
 import Space from "./Sapces";
 import axios from "axios";
@@ -10,7 +12,7 @@ export default function SpaceSection() {
     useEffect(() => {
     const fetchSpaces = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/user/spaces");
+        const response = await axios.get(`api/user/spaces`);
         setSpace(response.data);
 
       } catch (error) {

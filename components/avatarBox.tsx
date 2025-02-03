@@ -11,7 +11,7 @@ export default function Avatar({ imageUrl }: { imageUrl: string }) {
     };
 
     const handleSignOut = async () => {
-        const res = await axios.post("http://localhost:3000/api/user/signout")
+        const res = await axios.post("/api/user/signout")
         if (res.data.success) {
             window.location.href = "/";
         }

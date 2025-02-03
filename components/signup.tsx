@@ -25,7 +25,7 @@ export default function Signup() {
                 email: emailRef.current?.value || "",
                 password: passwordRef.current?.value || ""
             });
-            const res = await axios.post("http://localhost:3000/api/user/signup", {
+            const res = await axios.post("/api/user/signup", {
                 name: nameRef.current?.value || "",
                 email: emailRef.current?.value || "",
                 password: nameRef.current?.value || "",
@@ -46,7 +46,7 @@ export default function Signup() {
     async function hangleGoogleAuth() {
         try {
             setMessage("");
-            const res = await axios.get("http://localhost:3000/api/user/googleauth");
+            const res = await axios.get("/api/user/googleauth");
             window.location.href = res.data.url;
         } catch (error) {
             console.error(error);
