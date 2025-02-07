@@ -40,5 +40,7 @@ model Testimonial {
   email     String
   content   String
   videoUrl  String?
+  rating    Int
+  show      Boolean
   space     Space   @relation(fields: [spaceId], references: [id])
 }

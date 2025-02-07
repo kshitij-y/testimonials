@@ -11,7 +11,7 @@ export default async function Page() {
     
     
     return (
-        <div className="bg-gray-900 w-full min-h-screen h-full sm:w-full">
+        <div className="bg-gray-900 w-full min-h-screen h-full">
 
             <TopBar />
 

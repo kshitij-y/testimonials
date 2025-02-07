@@ -15,7 +15,7 @@ export default function Avatar({ imageUrl }: { imageUrl: string }) {
         if (res.data.success) {
             window.location.href = "/";
         }
-    }    
+    }
 
     return (
         <div>
