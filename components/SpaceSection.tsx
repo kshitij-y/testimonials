@@ -14,6 +14,7 @@ export default function SpaceSection() {
       try {
         const response = await axios.get(`api/user/spaces`);
         setSpace(response.data);
+        console.log(space);
 
       } catch (error) {
         if (axios.isAxiosError(error)) {

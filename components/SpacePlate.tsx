@@ -1,13 +1,15 @@
 interface props {
+    id: number;
     title: string;
     videos: number;
     texts: number;
-    img: string;  
+    img: string;
 }
 
 export default function SpacePlate(prop: props) {
     return (
-        <div className="mt-4 text-center p-6 bg-gray-800 rounded-lg border border-gray-700 shadow-sm">
+        <div className="mt-4 text-center p-6 bg-gray-800 rounded-lg border border-gray-700 shadow-sm cursor-pointer" onClick={() => { window.location.href = `spaceDash?id=${prop.id}` }}
+>
             <div className="flex justify-between">
                 <h1>{prop.title}</h1>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" aria-hidden="true" className="h-6 w-6 rounded-md hover:bg-gray-700">

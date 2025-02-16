@@ -2,6 +2,7 @@ import SpacePlate from "./SpacePlate";
 
 type SpaceType = {
     title: string;
+    id: number;
 };
 
 export default function Space({ spaces }: { spaces: SpaceType[] }) {
@@ -12,7 +13,7 @@ export default function Space({ spaces }: { spaces: SpaceType[] }) {
             </div>
             <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mt-6 p-2">
                 {spaces.map((space, index) => (
-                    <SpacePlate key={index} title={space.title} videos={0} texts={0} img={""} />
+                    <SpacePlate id={space.id} key={index} title={space.title} videos={0} texts={0}  img={""}/>
                 ))}
             </div>
         </div>
