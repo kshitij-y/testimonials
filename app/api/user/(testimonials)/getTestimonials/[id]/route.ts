@@ -3,15 +3,16 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: { id: string } }) {
     try {
+        const { params } = context; // Access params inside the function
         console.log("Received request for space ID:", params.id);
 
-        const spaceId = parseInt(params.id);
+        const spaceId = await parseInt(params.id, 10);
 
         if (isNaN(spaceId)) {
             console.error("Invalid Space ID");
-            return new NextResponse("Invalid Space ID", { status: 400 });
+            return NextResponse.json({ error: "Invalid Space ID" }, { status: 400 });
         }
 
         // Fetch testimonials for the given spaceId
@@ -20,19 +21,16 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
             select: { name: true, content: true, videoUrl: true }
         });
 
-
         if (testimonials.length === 0) {
             console.error("No testimonials found for space ID:", spaceId);
-            return new NextResponse("No testimonials found for this space", { status: 404 });
+            return NextResponse.json({ error: "No testimonials found for this space" }, { status: 404 });
         }
 
-       
-        return new NextResponse(
-            "abcd"
-        );
+        // Return testimonials as JSON
+        return NextResponse.json({ testimonials }, { status: 200 });
 
     } catch (error) {
         console.error("Error fetching testimonials:", error);
-        return new NextResponse("Internal Server Error", { status: 500 });
+        return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
     }
 }
