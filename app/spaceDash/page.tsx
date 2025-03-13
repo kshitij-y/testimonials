@@ -1,7 +1,7 @@
 "use client";
 import Testimonial from "@/components/testimonials";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import Loading from "@/components/loading";
 interface Props {
   id: string;
@@ -21,7 +21,7 @@ interface Space {
   Questions: string[];
 }
 
-export default function Page() {
+function TestimonialsPage() {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
 
@@ -130,12 +130,17 @@ export default function Page() {
 
       <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 mt-6 p-4 overflow-auto scrollbar-hide my-12">
         {data.map((testimonial, index) => (
-          <Testimonial
-            key={testimonial.id || index}
-            {...testimonial}
-          />
+          <Testimonial key={testimonial.id || index} {...testimonial} />
         ))}
       </div>
     </div>
+  );
+}
+
+export default function Page() {
+  return (
+    <Suspense fallback={<Loading />}>
+      <TestimonialsPage />
+    </Suspense>
   );
 }
