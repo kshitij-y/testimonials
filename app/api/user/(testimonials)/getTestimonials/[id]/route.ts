@@ -3,22 +3,21 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest, context: { params: { id: string } }) {
+export async function GET(req: NextRequest, context: { params: Promise<{ id: string }> }) {
     try {
-        const { params } = context; // Access params inside the function
-        console.log("Received request for space ID:", params.id);
-
-        const spaceId = await parseInt(params.id, 10);
+        const { params } = context;
+        const { id } = await params;
+        const spaceId = parseInt(id, 10);
+        console.log("Received request for space ID:", spaceId);
 
         if (isNaN(spaceId)) {
             console.error("Invalid Space ID");
             return NextResponse.json({ error: "Invalid Space ID" }, { status: 400 });
         }
 
-        // Fetch testimonials for the given spaceId
         const testimonials = await prisma.testimonial.findMany({
             where: { spaceId },
-            select: { name: true, content: true, videoUrl: true }
+            select: {id: true , name: true, content: true, videoUrl: true, show: true }
         });
 
         if (testimonials.length === 0) {
@@ -26,7 +25,7 @@ export async function GET(req: NextRequest, context: { params: { id: string } })
             return NextResponse.json({ error: "No testimonials found for this space" }, { status: 404 });
         }
 
-        // Return testimonials as JSON
+
         return NextResponse.json({ testimonials }, { status: 200 });
 
     } catch (error) {

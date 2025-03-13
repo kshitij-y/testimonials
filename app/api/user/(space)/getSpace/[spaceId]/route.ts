@@ -3,7 +3,8 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function GET(req: NextRequest, { params }: { params: { spaceId: string } }) {
+export async function GET(req: NextRequest, props: { params: Promise<{ spaceId: string }> }) {
+    const params = await props.params;
     const spaceId = parseInt(params.spaceId);
     console.log(spaceId);
     if (isNaN(spaceId)) {

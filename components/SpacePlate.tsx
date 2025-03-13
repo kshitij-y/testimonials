@@ -8,7 +8,7 @@ interface props {
 
 export default function SpacePlate(prop: props) {
   const handleClick = (id: string) => {
-    window.location.href = `/spaceDash/${id}`;
+    window.location.href = `/spaceDash/?id=${id}`;
   };
   return (
     <div
