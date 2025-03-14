@@ -41,7 +41,7 @@ const updateTestimonial = async (id: string) => {
 
 export default function Testimonial({ id, spaceId, name, email, content, videoUrl, rating, show }: Props) {
     return (
-      <div className="p-4 bg-gray-800 rounded-lg shadow-md w-full mt-4">
+      <div className="p-4 bg-gray-800 rounded-lg shadow-md w-full mt-4 h-fit">
         <div>
           <h2 className="text-xl font-bold text-white">{name}</h2>
           <p className="text-sm text-gray-400">{email}</p>
