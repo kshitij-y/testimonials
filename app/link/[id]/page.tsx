@@ -88,11 +88,16 @@ export default function Page() {
         show: false,
         videoUrl: null,
       });
-      if (res?.data.status == 200) {
+      if (res?.data.success) {
         modalClose();
         toast.success("Testimonial submited succefully");
         setLoading(false);
         showThankYou();
+      }
+      else {
+        modalClose();
+        toast.error(res.data.message);
+        setLoading(false);
       }
     } catch (error) {
       console.error("Error fetching data:", error);

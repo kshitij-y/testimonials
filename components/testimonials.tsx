@@ -1,4 +1,5 @@
 import React from 'react';
+import { toast } from 'react-toastify';
 
 interface Props {
     id: string;
@@ -16,12 +17,12 @@ const deleteTestimonial = async (id: string) => {
     );
     if (!isConfirmed) return;
     try {
-        console.log(id);
         await fetch(`/api/user/deleteTestimonial/${id}`, {
             method: "DELETE",
         });
         window.location.reload();
     } catch (error) {
+        toast.error("Error deleting testimonial");
         console.error("Error deleting testimonial:", error);
     }
 }

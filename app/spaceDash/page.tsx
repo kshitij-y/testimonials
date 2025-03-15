@@ -3,6 +3,7 @@ import Testimonial from "@/components/testimonials";
 import { useSearchParams, useRouter } from "next/navigation";
 import { useEffect, useState, Suspense } from "react";
 import Loading from "@/components/loading";
+import { toast } from "react-toastify";
 interface Props {
   id: string;
   spaceId: number;
@@ -37,25 +38,27 @@ function TestimonialsPage() {
         try {
           const response = await fetch(`/api/user/getTestimonials/${id}`);
           const res = await response.json();
-          setData(
-            res.testimonials.sort(
-              (a: Props, b: Props) => Number(a.id) - Number(b.id)
-            )
-          );
+          if (res.data.testimonials.length > 0) {
+            setData(
+              res.data.testimonials.sort(
+                (a: Props, b: Props) => Number(a.id) - Number(b.id)
+              )
+            );
+          }
 
           const response2 = await fetch(`/api/user/getSpace/${id}`);
           const spaceData = await response2.json();
           setSpace(spaceData.data);
           setloading(false);
         } catch (error) {
+          toast.error("Error fetching data" + error);
           console.error("Error fetching data:", error);
         }
       }
     };
     fetchData();
-  }, [id]);
+  }, []);
 
-  console.log(data);
   if (loading) {
     return (
       <div className="flex flex-col items-center text-center bg-gray-900 border border-gray-600 w-full p-12 h-screen shadow-lg">
@@ -72,7 +75,9 @@ function TestimonialsPage() {
             src="https://testimonial.to/static/media/logo.5ff3c18e.svg"
             alt=""
             className="h-10 w-48"
-            onClick={() => {router.push("/dashboard")}}
+            onClick={() => {
+              router.push("/dashboard");
+            }}
           />
         </div>
       </div>
@@ -138,9 +143,16 @@ function TestimonialsPage() {
           </div>
         )}
 
-        <div className="border border-gray-700 my-12 mx-12"></div>
+        <div className="border border-gray-700  mx-12"></div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 mt-6 p-4 overflow-auto scrollbar-hide my-12">
+        {!data.length && (
+          <div className="flex mt-6 items-center justify-center h-[90%] w-full">
+            <p className="text-white text-bold text-2xl">
+              No testimonials for this space yet
+            </p>
+          </div>
+        )}
+        <div className="grid grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 gap-6 mt-4 p-4 overflow-auto scrollbar-hide my-12">
           {data.map((testimonial, index) => (
             <Testimonial key={testimonial.id || index} {...testimonial} />
           ))}
