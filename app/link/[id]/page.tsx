@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { z } from "zod";
-import { toast, ToastContainer, Zoom } from "react-toastify";
+import { toast } from "react-toastify";
 
 export default function Page() {
   const params = useParams<{ id: string }>();
@@ -114,19 +114,20 @@ export default function Page() {
         const response = await fetch(`/api/user/getSpace/${spaceId}`);
         const data = await response.json();
         setLoading(false);
+        toast.success(data.message);
         if (data) {
-          setLogourl(data?.logoUrl);
-          setTitle(data?.title);
-          setDescription(data?.description);
-          setQuestions(data?.Questions);
-          setThankGif(data?.thankGif);
-          setThankTitle(data?.thankTitle);
-          setThankMsg(data?.thankMsg);
-          setRedUrl(data?.redirectUrl);
+          setLogourl(data?.data.logoUrl);
+          setTitle(data?.data.title);
+          setDescription(data?.data.description);
+          setQuestions(data?.data.Questions);
+          setThankGif(data?.data.thankGif);
+          setThankTitle(data?.data.thankTitle);
+          setThankMsg(data?.data.thankMsg);
+          setRedUrl(data?.data.redirectUrl);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
-      }
+          toast.error("Error fetching data");
+        }
     };
 
     fetchData();
@@ -314,14 +315,6 @@ export default function Page() {
           </div>
         )}
       </div>
-
-      <ToastContainer
-        theme="dark"
-        autoClose={1000}
-        hideProgressBar
-        transition={Zoom}
-        style={{ zIndex: 9999 }}
-      />
     </div>
   );
 }

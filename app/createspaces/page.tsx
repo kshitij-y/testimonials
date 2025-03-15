@@ -4,8 +4,8 @@ import Preview from "@/components/createSpace/preiview";
 import Thank from "@/components/createSpace/Thank";
 import TPreview from "@/components/createSpace/thanksPreview";
 import axios from "axios";
-
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 export default function Page() {
 
@@ -32,7 +32,7 @@ export default function Page() {
     const createSpace = async () => {
 
         try {
-            const response = await axios.post('/api/user/createspace', {
+            const res = await axios.post('/api/user/createspace', {
                 name: name,
                 logoUrl: logourl,
                 title: title,
@@ -43,9 +43,13 @@ export default function Page() {
                 thankMsg: thankMsg || "Thank you so much for your shoutout! It means a ton for us! 🙏",
                 redirectUrl: redirectUrl
             })
-            console.log(response);
-            if (response.status === 201) {
-                window.location.href = "/dashboard";
+            if (res.data.success) {
+              toast.success(res.data.message, {
+                autoClose: 2000,
+                onClose: () => (window.location.href = "/dashboard"),
+              });
+            } else {
+                toast.error(res.data.message);
             }
             
             

@@ -1,49 +1,58 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken";
+import { successResponse, errorResponse } from "@/utils/response";
 
 const prisma = new PrismaClient();
-const JWT_SECRET = process.env.JWT_SECRET || 'secret_code';
-
+const JWT_SECRET = process.env.JWT_SECRET || "secret_code";
 
 export async function GET(req: NextRequest) {
-    try {
-        const token = req.cookies.get('token')?.value;
-        console.log(token);
-        if (!token) {
-            return NextResponse.json(
-                { error: "Unauthorized: Missing token in cookies." },
-                { status: 401 }
-            );
+  try {
+    // Get token from cookies
+    const token = req.cookies.get("token")?.value;
+    if (!token) {
+      return NextResponse.json(
+        errorResponse("Unauthorized: Missing token in cookies."),
+        {
+          status: 401,
         }
-    
-        const decoded = jwt.verify(token, JWT_SECRET);
-        const { userId } = decoded as { userId: number };
-    
-        if (!userId) {
-            return NextResponse.json(
-                { error: "Unauthorized: Invalid token." },
-                { status: 401 }
-            );
-        }
-
-        const spaces = await prisma.space.findMany({
-            where: {
-                userId,
-            },
-        });
-        return NextResponse.json(spaces, { status: 200 });
-          
-    } catch (error) {
-        console.log("Error fetching spaces:", error);
-        return NextResponse.json({
-            error: "Failed to fetch spaces. Please try again later."
-        },{
-            status: 500
-        });
-    } finally {
-        await prisma.$disconnect().catch((err) => {
-            console.log("Error disconnecting Prisma client:", err);
-        });
+      );
     }
+
+    // Verify JWT
+    const decoded = jwt.verify(token, JWT_SECRET);
+    console.log(decoded);
+    const { userId } = decoded as { userId: number };
+
+    if (!userId) {
+      return NextResponse.json(errorResponse("Unauthorized: Invalid token."), {
+        status: 401,
+      });
+    }
+
+    // Fetch user's spaces
+    const spaces = await prisma.space.findMany({
+      where: { userId },
+    });
+
+    return NextResponse.json(
+      successResponse("Spaces fetched successfully", spaces),
+      {
+        status: 200,
+      }
+    );
+  } catch (error) {
+    console.error("Error fetching spaces:", error);
+
+    return NextResponse.json(
+      errorResponse("Failed to fetch spaces. Please try again later.", error),
+      {
+        status: 500,
+      }
+    );
+  } finally {
+    await prisma.$disconnect().catch((err) => {
+      console.error("Error disconnecting Prisma client:", err);
+    });
+  }
 }

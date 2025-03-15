@@ -6,6 +6,7 @@ import NoSpace from "./NoSpace";
 import Space from "./Sapces";
 import axios from "axios";
 import Loading from "./loading";
+import { toast } from "react-toastify";
 
 export default function SpaceSection() {
     const [space, setSpace] = useState([]);
@@ -13,19 +14,21 @@ export default function SpaceSection() {
     const [loading, setloading] = useState(true);
 
     useEffect(() => {
-    const fetchSpaces = async () => {
-      try {
-        const response = await axios.get(`api/user/spaces`);
-        setSpace(response.data);
-        setloading(false);
-      } catch (error) {
-        if (axios.isAxiosError(error)) {
-          console.log("Error fetching spaces:", error.response?.data || error.message);
+      const fetchSpaces = async () => {
+        try {
+          const response = await axios.get(`api/user/spaces`);
+          setloading(false);
+          setSpace(response.data.data);
+          if (!response.data.success) {
+            toast.error(response.data.message);
+          }
+        } catch (error) {
+          if (axios.isAxiosError(error)) {
+            console.log("Error fetching spaces:", error.response?.data || error.message);
+          }
         }
-      }
-    };
-
-    fetchSpaces();
+      };
+      fetchSpaces();
     }, []);
     
     if (loading) {

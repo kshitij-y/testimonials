@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import jwt from 'jsonwebtoken';
+import { successResponse, errorResponse } from "@/utils/response";
 
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'secret_code';
@@ -11,7 +12,7 @@ export async function POST(req: NextRequest) {
 
     if (!token) {
       return NextResponse.json(
-        { message: "Unauthorized: Missing token in cookies." },
+        errorResponse("Unauthorized: Missing token in cookies."),
         { status: 401 }
       );
     }
@@ -20,10 +21,9 @@ export async function POST(req: NextRequest) {
     const { userId } = decoded as { userId: number };
 
     if (!userId) {
-      return NextResponse.json(
-        { message: "Unauthorized: Invalid token." },
-        { status: 401 }
-      );
+      return NextResponse.json(errorResponse("Unauthorized: Invalid token."), {
+        status: 401,
+      });
     }
 
     const body = await req.json();
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
 
     if (!name || !description || !title) {
       return NextResponse.json(
-        { message: "Missing required fields: name, description, or title." },
+        errorResponse("Missing required fields: name, description, or title."),
         { status: 400 }
       );
     }
@@ -41,13 +41,11 @@ export async function POST(req: NextRequest) {
     });
 
     if (!user) {
-      return NextResponse.json(
-        { message: "User not found." },
-        { status: 404 }
-      );
+      return NextResponse.json(errorResponse("User not found."), {
+        status: 404,
+      });
     }
-    console.log(body);
-    await prisma.space.create({
+    const res = await prisma.space.create({
       data: {
         userId,
         name,
@@ -62,16 +60,25 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json(
-      { message: "success" },
-      { status: 201 }
-    );
+    if (res) {
+      return NextResponse.json(
+        successResponse("Space created successfully", null),
+        { status: 201 }
+      );
+    } else {
+      return NextResponse.json(
+        errorResponse("Space not created. Plz try again later."),
+        { status: 201 }
+      );
+    }
   } catch (error) {
     console.error("Error creating space:", error);
+
     return NextResponse.json(
-      { message: "Failed to create space. Please try again later." },
+      errorResponse("Failed to create space. Please try again later.", (error as Error).message),
       { status: 500 }
     );
+
   } finally {
     await prisma.$disconnect().catch((e) => {
       console.error("Error disconnecting Prisma client:", e);
