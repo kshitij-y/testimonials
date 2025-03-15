@@ -47,7 +47,7 @@ export default function Signup() {
         try {
             setMessage("");
             const res = await axios.get("/api/user/googleauth");
-            window.location.href = res.data.url;
+            window.location.href = res.data.data.url;
         } catch (error) {
             console.error(error);
         }

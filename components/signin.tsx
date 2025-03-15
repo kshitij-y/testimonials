@@ -3,7 +3,7 @@ import TopBar from "./topBar";
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { z } from "zod";
-
+import { toast } from "react-toastify";
 const SigninSchema = z.object({
     email: z.string().email({ message: "Invalid email address" }),
     password: z.string().min(6, { message: "Password must be at least 6 characters long" }),
@@ -40,14 +40,17 @@ export default function Signin() {
                 password,
             });
             setMessage(res.data.message);
-            if (res.data.token) {
+            if (res.data.success) {
+                // toast.success(res.data.message, { autoClose: 2000 });
                 window.location.href = "/dashboard";
+            } else {
+                toast.error(res.data.message, { autoClose: 2000 });
             }
         } catch (error) {
             if (error instanceof z.ZodError) {
                 setMessage(error.errors[0].message);
             } else {
-                console.error(error);
+                toast.error(error as string, { autoClose: 2000 });
             }
         }
     }
@@ -58,7 +61,7 @@ export default function Signin() {
             setLoading(true)
             const res = await axios.get("/api/user/googleauth");
             setLoading(false);
-            window.location.href = res.data.url;
+            window.location.href = res.data.data.url;
         } catch (error) {
             if (error instanceof z.ZodError) {
                 setMessage(error.errors[0].message);
