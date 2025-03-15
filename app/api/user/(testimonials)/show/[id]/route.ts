@@ -10,7 +10,7 @@ export async function POST(req: NextRequest, context: { params: Promise<{ id: st
 
 try {
     const existingTestimonial = await prisma.testimonial.findUnique({
-        where: { id: parseInt(id) },
+        where: { id },
     });
 
 
@@ -21,7 +21,7 @@ try {
     }
 
     await prisma.testimonial.update({
-        where: { id: parseInt(id) },
+        where: { id },
         data: { show: { set: !existingTestimonial.show } },
     });
 

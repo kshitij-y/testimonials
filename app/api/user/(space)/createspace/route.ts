@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);
-    const { userId } = decoded as { userId: number };
+    const { userId } = decoded as { userId: string };
 
     if (!userId) {
       return NextResponse.json(errorResponse("Unauthorized: Invalid token."), {

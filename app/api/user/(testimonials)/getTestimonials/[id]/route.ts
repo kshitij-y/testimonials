@@ -7,10 +7,10 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
   try {
     const { params } = context;
     const { id } = await params;
-    const spaceId = parseInt(id, 10);
+    const spaceId = id;
     console.log("Received request for space ID:", spaceId);
 
-    if (isNaN(spaceId)) {
+    if (!(spaceId)) {
       console.error("Invalid Space ID");
       return NextResponse.json(errorResponse("Invalid Space ID"), {
         status: 400,
@@ -30,7 +30,9 @@ export async function GET(req: NextRequest, context: { params: Promise<{ id: str
 
     if (testimonials.length === 0) {
       return NextResponse.json(
-        errorResponse("No testimonials found for this space"),
+        successResponse("No testimonials found for this space", {
+          testimonials,
+        }),
         { status: 404 }
       );
     }

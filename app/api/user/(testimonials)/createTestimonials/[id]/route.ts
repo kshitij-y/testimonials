@@ -11,14 +11,14 @@ export async function POST(
     const { params } = context;
     const { id } = await params;
 
-    if (!id || isNaN(parseInt(id))) {
+    if (!id) {
       return NextResponse.json(errorResponse("Invalid space ID"), {
         status: 400,
       });
     }
 
     const space = await prisma.space.findUnique({
-      where: { id: parseInt(id) },
+      where: { id },
     });
 
     if (!space) {
@@ -30,7 +30,7 @@ export async function POST(
     const { name, email, content, rating, videoUrl } = await req.json();
     const newTestimonial = await prisma.testimonial.create({
       data: {
-        spaceId: parseInt(id),
+        spaceId: id,
         name,
         email,
         content,

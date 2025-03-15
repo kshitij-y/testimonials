@@ -7,7 +7,7 @@ datasource db {
   url      = env("DATABASE_URL") // Ensure your .env file has the DATABASE_URL
 }
 model User {
-  id           Int      @id @default(autoincrement())
+  id           String      @id @default(uuid())
   email        String   @unique
   passwordHash String?  
   googleId     String?  @unique
@@ -17,8 +17,8 @@ model User {
 }
 
 model Space {
-  id          Int       @id @default(autoincrement())
-  userId      Int
+  id          String       @id @default(uuid())
+  userId      String
   name        String
   description String
   logoUrl     String
@@ -34,8 +34,8 @@ model Space {
 }
 
 model Testimonial {
-  id        Int      @id @default(autoincrement())
-  spaceId   Int
+  id        String      @id @default(uuid())
+  spaceId   String
   name      String
   email     String
   content   String

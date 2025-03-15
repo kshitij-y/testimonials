@@ -6,7 +6,7 @@ import Loading from "@/components/loading";
 import { toast } from "react-toastify";
 interface Props {
   id: string;
-  spaceId: number;
+  spaceId: string
   name: string;
   email: string;
   content: string;
@@ -22,6 +22,8 @@ interface Space {
   Questions: string[];
 }
 
+
+
 function TestimonialsPage() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -29,8 +31,35 @@ function TestimonialsPage() {
 
   const [data, setData] = useState<Props[]>([]);
   const [space, setSpace] = useState<Space | null>(null);
-
   const [loading, setloading] = useState(true);
+  const [copyButtonText, setCopyButtonText] = useState("copy Link");
+  const code = process.env.NEXT_PUBLIC_URI || "localhost:4000";
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(`${code}/link/${id}`);
+    setCopyButtonText("copied!")
+    toast.success("copied", {autoClose: 1000});
+  }
+
+  const deleteSpace = async (spaceId: string) => {
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this Space?"
+    );
+    if (!isConfirmed) return;
+    try {
+      await fetch(`/api/user/deleteSpace/${spaceId}`, {
+        method: "DELETE",
+      });
+      toast.success("Space deleted", {
+        autoClose: 1000,
+        onClose: () => router.push("/dashboard"),
+      });
+    } catch (error) {
+      toast.error("Error deleting Space");
+      console.error("Error deleting Space:", error);
+    }
+  };
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +69,8 @@ function TestimonialsPage() {
           const res = await response.json();
           if (res.data.testimonials.length > 0) {
             setData(
-              res.data.testimonials.sort(
-                (a: Props, b: Props) => Number(a.id) - Number(b.id)
+              res.data.testimonials.sort((a: Props, b: Props) =>
+                a.id.localeCompare(b.id)
               )
             );
           }
@@ -135,8 +164,17 @@ function TestimonialsPage() {
                   Edit this Space
                 </button>
 
-                <button className="flex justify-center items-center text-xl px-6 py-2 bg-red-900 w-full mb-4 sm:w-auto sm:mb-0 rounded-md">
+                <button
+                  className="flex justify-center items-center text-xl px-6 py-2 bg-red-900 w-full mb-4 sm:w-auto sm:mb-0 rounded-md"
+                  onClick={() => id && deleteSpace(id)}
+                >
                   Delete this Space
+                </button>
+                <button
+                  className="flex justify-center items-center text-xl px-6 py-2 bg-gray-900 w-full mb-4 sm:w-auto sm:mb-0 rounded-md"
+                  onClick={copyLink}
+                >
+                  {copyButtonText}
                 </button>
               </div>
             </div>

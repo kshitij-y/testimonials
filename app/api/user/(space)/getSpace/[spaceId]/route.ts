@@ -5,8 +5,8 @@ const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest, props: { params: Promise<{ spaceId: string }> }) {
   const params = await props.params;
-  const spaceId = parseInt(params.spaceId);
-  if (isNaN(spaceId)) {
+  const spaceId = params.spaceId;
+  if (!(spaceId)) {
     return NextResponse.json(errorResponse("Invalid space ID"), {
       status: 400,
     });

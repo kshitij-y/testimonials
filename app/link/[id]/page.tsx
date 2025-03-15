@@ -80,7 +80,7 @@ export default function Page() {
       setLoading(true);
 
       const res = await axios.post(`/api/user/createTestimonials/${spaceId}`, {
-        spaceId: parseInt(spaceId),
+        spaceId,
         name,
         email,
         content,

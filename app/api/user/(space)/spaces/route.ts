@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     // Verify JWT
     const decoded = jwt.verify(token, JWT_SECRET);
     console.log(decoded);
-    const { userId } = decoded as { userId: number };
+    const { userId } = decoded as { userId: string };
 
     if (!userId) {
       return NextResponse.json(errorResponse("Unauthorized: Invalid token."), {

@@ -11,7 +11,7 @@ export async function DELETE(req: NextRequest, context: { params: Promise<{ id: 
 
     try {
         const res = await prisma.testimonial.delete({
-            where: { id: Number(id) }
+            where: { id }
         });
 
         if (res) {

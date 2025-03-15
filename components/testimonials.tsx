@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 
 interface Props {
     id: string;
-    spaceId: number;
+    spaceId: string;
     name: string;
     email: string;
     content: string;
