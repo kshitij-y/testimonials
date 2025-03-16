@@ -44,7 +44,7 @@ export async function GET(req: NextRequest, props: { params: Promise<{ spaceId: 
       status: 500,
     });
   } finally {
-    await prisma.$disconnect().catch((e) => {
+    await prisma.$disconnect().catch((e: Error) => {
       console.error("Error disconnecting Prisma client:", e);
     });
   }
